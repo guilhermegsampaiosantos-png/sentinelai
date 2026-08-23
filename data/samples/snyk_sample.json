@@ -1,0 +1,50 @@
+{
+  "projectName": "minha-app",
+  "displayTargetFile": "package.json",
+  "vulnerabilities": [
+    {
+      "id": "SNYK-JS-LODASH-567746",
+      "title": "Prototype Pollution",
+      "severity": "high",
+      "packageName": "lodash",
+      "version": "4.17.15",
+      "description": "Versões do lodash anteriores a 4.17.21 são vulneráveis a Prototype Pollution via função zipObjectDeep.",
+      "cvssScore": "7.4",
+      "fixedIn": ["4.17.21"],
+      "identifiers": {
+        "CVE": ["CVE-2020-8203"],
+        "CWE": ["CWE-400"]
+      }
+    },
+    {
+      "id": "SNYK-JS-AXIOS-1038255",
+      "title": "Server-Side Request Forgery (SSRF)",
+      "severity": "medium",
+      "packageName": "axios",
+      "version": "0.21.0",
+      "description": "axios versão < 0.21.1 é vulnerável a SSRF via redirecionamentos.",
+      "cvssScore": "5.9",
+      "fixedIn": ["0.21.1"],
+      "identifiers": {
+        "CVE": ["CVE-2020-28168"],
+        "CWE": ["CWE-918"]
+      }
+    },
+    {
+      "id": "SNYK-JS-JSONWEBTOKEN-3180026",
+      "title": "Improper Authentication",
+      "severity": "critical",
+      "packageName": "jsonwebtoken",
+      "version": "8.5.1",
+      "description": "jsonwebtoken < 9.0.0 não valida corretamente a assinatura em certos algoritmos, permitindo bypass de autenticação.",
+      "cvssScore": "9.1",
+      "fixedIn": ["9.0.0"],
+      "identifiers": {
+        "CVE": ["CVE-2022-23529"],
+        "CWE": ["CWE-287"]
+      }
+    }
+  ],
+  "dependencyCount": 312,
+  "packageManager": "npm"
+}

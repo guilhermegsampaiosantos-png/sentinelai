@@ -1,0 +1,47 @@
+{
+  "site": [
+    {
+      "@name": "http://localhost:8080",
+      "@host": "localhost",
+      "@port": "8080",
+      "alerts": [
+        {
+          "pluginid": "40012",
+          "name": "Cross Site Scripting (Reflected)",
+          "riskcode": "3",
+          "risk": "High",
+          "desc": "XSS refletido detectado. Input do usuário é devolvido sem sanitização na resposta HTTP.",
+          "solution": "Valide e encode todo input do usuário antes de incluir na resposta. Use Content-Security-Policy.",
+          "cweid": "79",
+          "instances": [
+            { "uri": "http://localhost:8080/search?q=test", "method": "GET", "param": "q" }
+          ]
+        },
+        {
+          "pluginid": "10202",
+          "name": "Absence of Anti-CSRF Tokens",
+          "riskcode": "2",
+          "risk": "Medium",
+          "desc": "Formulário HTML sem token CSRF. Permite ataques Cross-Site Request Forgery.",
+          "solution": "Implemente tokens CSRF em todos os formulários que alteram estado.",
+          "cweid": "352",
+          "instances": [
+            { "uri": "http://localhost:8080/account/update", "method": "POST", "param": "" }
+          ]
+        },
+        {
+          "pluginid": "10096",
+          "name": "Timestamp Disclosure",
+          "riskcode": "1",
+          "risk": "Low",
+          "desc": "Timestamp Unix detectado na resposta. Pode revelar informações sobre o servidor.",
+          "solution": "Remova ou mascare timestamps desnecessários nas respostas.",
+          "cweid": "200",
+          "instances": [
+            { "uri": "http://localhost:8080/api/status", "method": "GET", "param": "" }
+          ]
+        }
+      ]
+    }
+  ]
+}

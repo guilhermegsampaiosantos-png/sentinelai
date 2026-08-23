@@ -1,0 +1,10 @@
+PyQt6>=6.6.0
+PyQt6-Charts>=6.6.0
+defusedxml>=0.7.1
+python-dateutil>=2.8.2
+
+# IA — apenas um backend é necessário:
+# Opção A (local, sem internet): instale Ollama em https://ollama.com
+#   depois execute: ollama pull gemma3:4b
+# Opção B (nuvem, gratuito):  crie uma chave em https://console.groq.com
+#   e cole no campo "Groq API Key" dentro do app, ou: export GROQ_API_KEY=gsk_...

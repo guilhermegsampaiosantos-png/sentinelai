@@ -1,0 +1,42 @@
+[
+  {
+    "Description": "AWS Access Key ID detectada",
+    "StartLine": 42,
+    "EndLine": 42,
+    "StartColumn": 14,
+    "EndColumn": 34,
+    "Match": "AKIA...EXAMPLE",
+    "Secret": "AKIAIOSFODNN7EXAMPLE",
+    "File": "src/config/aws.py",
+    "SymlinkFile": "",
+    "Commit": "a3f1c9d2b4e7f8091234567890abcdef12345678",
+    "Entropy": 3.75,
+    "Author": "dev@empresa.com",
+    "Email": "dev@empresa.com",
+    "Date": "2024-03-15T10:22:00Z",
+    "Message": "fix: update config",
+    "Tags": [],
+    "RuleID": "aws-access-key-id",
+    "Fingerprint": "a3f1c9d:src/config/aws.py:aws-access-key-id:42"
+  },
+  {
+    "Description": "GitHub Personal Access Token",
+    "StartLine": 8,
+    "EndLine": 8,
+    "StartColumn": 7,
+    "EndColumn": 47,
+    "Match": "ghp_...",
+    "Secret": "ghp_16C7e42F292c6912E7710c838347Ae178B4a",
+    "File": ".env.backup",
+    "SymlinkFile": "",
+    "Commit": "bb2d3a1f99e0c1d2345678abcdef0987654321ff",
+    "Entropy": 4.12,
+    "Author": "backend@empresa.com",
+    "Email": "backend@empresa.com",
+    "Date": "2024-03-10T08:11:00Z",
+    "Message": "chore: backup env",
+    "Tags": [],
+    "RuleID": "github-pat",
+    "Fingerprint": "bb2d3a1:env.backup:github-pat:8"
+  }
+]

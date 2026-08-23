@@ -1,0 +1,48 @@
+{
+  "version": "1.50.0",
+  "results": [
+    {
+      "check_id": "python.django.security.injection.tainted-sql-string.tainted-sql-string",
+      "path": "app/views/user.py",
+      "start": { "line": 34, "col": 9 },
+      "end":   { "line": 34, "col": 62 },
+      "extra": {
+        "severity": "error",
+        "message": "Possível injeção de SQL: dados do usuário concatenados diretamente na query.",
+        "metadata": {
+          "cwe": ["CWE-89"],
+          "fix": "Use parametrized queries: cursor.execute(query, params)"
+        }
+      }
+    },
+    {
+      "check_id": "python.flask.security.xss.reflected-xss",
+      "path": "app/templates/search.html",
+      "start": { "line": 12, "col": 5 },
+      "end":   { "line": 12, "col": 38 },
+      "extra": {
+        "severity": "warning",
+        "message": "XSS refletido: variável renderizada sem escape no template.",
+        "metadata": {
+          "cwe": ["CWE-79"],
+          "fix": "Use {{ var | e }} no Jinja2 para escapar automaticamente."
+        }
+      }
+    },
+    {
+      "check_id": "python.cryptography.security.insecure-hash.insecure-hash-algorithm-md5",
+      "path": "app/utils/crypto.py",
+      "start": { "line": 8, "col": 14 },
+      "end":   { "line": 8, "col": 30 },
+      "extra": {
+        "severity": "warning",
+        "message": "Uso de MD5 para hashing de senhas — algoritmo inseguro.",
+        "metadata": {
+          "fix": "Substitua por bcrypt ou argon2."
+        }
+      }
+    }
+  ],
+  "errors": [],
+  "stats": { "total_time": 4.21 }
+}
