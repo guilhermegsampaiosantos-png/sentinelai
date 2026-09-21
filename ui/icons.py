@@ -112,6 +112,13 @@ def _draw_document(p, color):
     p.drawLine(QPointF(8, 16), QPointF(13, 16))
 
 
+def _draw_server(p, color):
+    p.drawRoundedRect(QRectF(3, 4, 18, 7), 1.8, 1.8)
+    p.drawRoundedRect(QRectF(3, 13, 18, 7), 1.8, 1.8)
+    _dot(p, QPointF(6.5, 7.5), 0.9, color)
+    _dot(p, QPointF(6.5, 16.5), 0.9, color)
+
+
 def _draw_target(p, color):
     c = QPointF(12, 12)
     p.drawEllipse(c, 9, 9)
@@ -174,6 +181,17 @@ def _draw_clock(p, color):
     p.drawLine(QPointF(12, 12), QPointF(16, 14.5))
 
 
+def _draw_plus(p, color):
+    p.drawLine(QPointF(12, 4.5), QPointF(12, 19.5))
+    p.drawLine(QPointF(4.5, 12), QPointF(19.5, 12))
+
+
+def _draw_save(p, color):
+    p.drawRoundedRect(QRectF(4, 4, 16, 16), 2, 2)
+    p.drawRect(QRectF(7.5, 4, 9, 6))
+    p.drawRect(QRectF(7, 13, 10, 7))
+
+
 _DRAWERS = {
     "shield": _draw_shield,
     "upload": _draw_upload,
@@ -183,6 +201,7 @@ _DRAWERS = {
     "brain": _draw_brain,
     "chat": _draw_chat,
     "document": _draw_document,
+    "server": _draw_server,
     "target": _draw_target,
     "search": _draw_search,
     "flame": _draw_flame,
@@ -191,6 +210,8 @@ _DRAWERS = {
     "x": _draw_x,
     "plug": _draw_plug,
     "clock": _draw_clock,
+    "plus": _draw_plus,
+    "save": _draw_save,
 }
 
 _cache: dict[tuple, QIcon] = {}

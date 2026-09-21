@@ -8,10 +8,12 @@ from parsers.semgrep_parser import SemgrepParser
 from parsers.zap_parser import ZapParser
 from parsers.snyk_parser import SnykParser
 from parsers.gitleaks_parser import GitleaksParser
+from parsers.trivy_parser import TrivyParser
 
 # Ordem de tentativa na detecção automática
 PARSERS = [
     GitleaksParser(),  # primeiro — estrutura muito específica
+    TrivyParser(),      # também específico (chaves 'SchemaVersion' / 'Results')
     SnykParser(),
     SemgrepParser(),
     ZapParser(),

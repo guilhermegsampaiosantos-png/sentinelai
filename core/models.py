@@ -18,10 +18,12 @@ class Severity(str, Enum):
 
 
 class ScanType(str, Enum):
-    SAST    = "SAST"
-    DAST    = "DAST"
-    SCA     = "SCA"
-    SECRETS = "SECRETS"
+    SAST      = "SAST"
+    DAST      = "DAST"
+    SCA       = "SCA"
+    SECRETS   = "SECRETS"
+    CONTAINER = "CONTAINER"  # novo: CVEs em imagens Docker (ex.: Trivy)
+    IAC       = "IAC"        # novo: más configurações em Terraform/K8s/Dockerfile (ex.: Trivy, Checkov)
 
 
 class Status(str, Enum):
@@ -49,6 +51,7 @@ class Vulnerability:
     status: Status = Status.OPEN
     found_at: datetime = field(default_factory=datetime.now)
     rule_id: Optional[str] = None    # ID da regra na ferramenta de origem
+    asset_id: Optional[str] = None   # vincula a um Asset (core/asset.py) — contexto por ativo
 
 
 @dataclass
@@ -65,7 +68,7 @@ class ScanReport:
 @dataclass
 class PostureScore:
     """Score de postura calculado pelo scorer.py."""
-    overall: float                   # 0-100 (100 = perfeito)
+    overall: float                   # 0-100 (0 = risco mínimo/melhor postura, 100 = risco máximo)
     by_scan_type: dict[str, float] = field(default_factory=dict)
     critical_count: int = 0
     high_count: int = 0

@@ -15,6 +15,13 @@ ENV/
 .env.*
 *.key
 
+# --- Dados gerados em runtime (específicos de quem roda o app) ---
+# data/samples/*.json continuam versionados (fixtures de exemplo);
+# só os arquivos que o próprio app grava em disco ficam de fora.
+data/company_context.json
+data/assets.json
+data/settings.json
+
 # --- PyQt / build ---
 build/
 dist/

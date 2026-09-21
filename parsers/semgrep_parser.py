@@ -44,7 +44,7 @@ class SemgrepParser(BaseParser):
 
         for result in data.get("results", []):
             meta = result.get("extra", {})
-            severity_raw = meta.get("severity", "warning")
+            severity_raw = meta.get("severity", "warning").lower()
             # Semgrep pode sobrescrever severidade via metadata
             meta_sev = meta.get("metadata", {}).get("confidence", None)
             severity = SEVERITY_MAP.get(severity_raw, Severity.MEDIUM)

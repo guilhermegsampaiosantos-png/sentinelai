@@ -4,8 +4,9 @@ Paleta central de cores da SentinelAI — usada por toda a UI.
 
 Objetivo: sair do combo genérico "dark tipo GitHub + verde neon em tudo"
 e ter hierarquia de cor de verdade:
-  - ACCENT (azul)     -> ações primárias / marca
-  - AI_ACCENT (roxo)  -> tudo que é IA (visualmente distinto de ações comuns)
+  - ACCENT (azul)     -> ações primárias / marca, inclusive as de IA — a
+                         equipe decidiu manter uma cor só de ação em todo
+                         o app em vez de reservar um roxo separado pra IA
   - SEV_*             -> severidade (semântico, nunca usado como decoração)
 """
 
@@ -23,7 +24,12 @@ BORDER_STRONG = "#3a4562"
 # Texto
 TEXT_PRIMARY = "#eef1f8"
 TEXT_MUTED   = "#8993ac"
-TEXT_FAINT   = "#5c6785"
+# Antes #5c6785: 3.17:1 contra BG_SURFACE, abaixo do mínimo 4.5:1 da WCAG AA
+# para texto normal — texto "apagado" de propósito não pode virar texto
+# ilegível. #828fb0 continua mais escuro que TEXT_MUTED (mantém a
+# hierarquia) mas passa de 5:1 contra todos os fundos usados (SURFACE/APP/
+# ELEVATED), verificado via razão de contraste WCAG (luminância relativa).
+TEXT_FAINT   = "#828fb0"
 
 # Marca / ações primárias (azul — substitui o verde neon usado em tudo)
 ACCENT         = "#4f8dff"
@@ -31,11 +37,15 @@ ACCENT_HOVER   = "#6ea1ff"
 ACCENT_PRESSED = "#3b74e0"
 ACCENT_ON      = "#071022"  # texto sobre fundo ACCENT
 
-# IA (verde — diferencia visualmente ações de IA das ações comuns)
-AI_ACCENT         = "#1fbf75"
-AI_ACCENT_HOVER   = "#3fd48c"
-AI_ACCENT_PRESSED = "#17a863"
-AI_ACCENT_ON      = "#052013"
+# IA — mesmo azul do ACCENT. Chegou a ser roxo (pra diferenciar ações de
+# IA das ações comuns) e antes disso verde, mas a equipe preferiu manter
+# uma cor de ação só no app inteiro. Os aliases continuam existindo pra
+# não precisar mexer em todo ui/views/ai_view.py — só apontam pro mesmo
+# valor do ACCENT agora.
+AI_ACCENT         = ACCENT
+AI_ACCENT_HOVER   = ACCENT_HOVER
+AI_ACCENT_PRESSED = ACCENT_PRESSED
+AI_ACCENT_ON      = ACCENT_ON
 
 # Severidade / status (semântico — não usar como decoração)
 SEV_CRITICAL = "#f0455c"

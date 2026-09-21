@@ -1,0 +1,52 @@
+{
+  "SchemaVersion": 2,
+  "ArtifactName": "minha-imagem:latest",
+  "ArtifactType": "container_image",
+  "Results": [
+    {
+      "Target": "minha-imagem:latest (debian 12.5)",
+      "Class": "os-pkgs",
+      "Type": "debian",
+      "Vulnerabilities": [
+        {
+          "VulnerabilityID": "CVE-2024-1234",
+          "PkgName": "openssl",
+          "InstalledVersion": "3.0.11",
+          "FixedVersion": "3.0.13",
+          "Title": "openssl: buffer overflow",
+          "Description": "Um overflow de buffer no openssl permite execução remota.",
+          "Severity": "CRITICAL",
+          "CVSS": {"nvd": {"V3Score": 9.8}}
+        }
+      ]
+    },
+    {
+      "Target": "Dockerfile",
+      "Class": "config",
+      "Type": "dockerfile",
+      "Misconfigurations": [
+        {
+          "ID": "AVD-DS-0002",
+          "Title": "Imagem rodando como root",
+          "Message": "O container não define um usuário não-root",
+          "Severity": "HIGH",
+          "Resolution": "Adicione a instrução USER no Dockerfile",
+          "CauseMetadata": {"StartLine": 1}
+        }
+      ]
+    },
+    {
+      "Target": "app/.env",
+      "Class": "secret",
+      "Secrets": [
+        {
+          "RuleID": "aws-access-key",
+          "Category": "AWS",
+          "Title": "AWS Access Key detectada",
+          "Severity": "CRITICAL",
+          "StartLine": 3
+        }
+      ]
+    }
+  ]
+}

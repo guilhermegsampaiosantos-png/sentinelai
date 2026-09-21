@@ -11,19 +11,59 @@ from ui import theme
 
 
 class DonutRing(QWidget):
-    """Anel de progresso circular com valor percentual no centro."""
+    """
+    Anel de risco com TRÊS estados visualmente distintos — a distinção é o
+    ponto principal deste widget, não a decoração:
+
+      1. SEM COBERTURA  -> traço pontilhado apagado e "—" no centro.
+         Aquele tipo de scan nunca rodou. Lê-se como ausência, não como
+         aprovação.
+
+      2. COBERTO, RISCO ZERO -> anel INTEIRO preenchido em verde e "0".
+         Aqui está a sutileza: com a escala de risco invertida (0 = melhor),
+         desenhar 0 como um anel vazio faria a melhor notícia possível ficar
+         visualmente idêntica a "não tenho nada". Um anel completo lê-se
+         como "verificado e fechado", que é exatamente o que aconteceu.
+
+      3. COBERTO, COM RISCO -> arco proporcional ao risco, na cor da faixa.
+
+    Antes, os estados 1 e 2 eram o mesmo desenho (anel vazio), e a ASPM
+    acabava afirmando cobertura que não tinha.
+    """
 
     def __init__(self, color: str, thickness: int = 9, parent=None):
         super().__init__(parent)
         self._color = color
         self._thickness = thickness
-        self._value = 0.0          # 0-100
+        self._value = 0.0          # 0-100 (risco)
         self._display = "—"
+        self._covered = True
         self.setFixedSize(84, 84)
 
-    def set_value(self, value: float, display: str | None = None):
+    def set_color(self, color: str):
+        """Troca a cor do arco. Existe para o Dashboard não precisar mexer
+        no atributo interno _color como fazia antes."""
+        self._color = color
+        self.update()
+
+    def set_uncovered(self):
+        """Estado 1: este tipo de scan não foi executado."""
+        self._covered = False
+        self._value = 0.0
+        self._display = "—"
+        self.setToolTip("Nenhuma ferramenta importada cobre este tipo de scan")
+        self.update()
+
+    def set_value(self, value: float, display: str | None = None,
+                  color: str | None = None):
+        """Estados 2 e 3: o tipo foi coberto; `value` é o risco (0 = melhor)."""
+        self._covered = True
+        if color is not None:
+            self._color = color
         self._value = max(0.0, min(100.0, value))
         self._display = display if display is not None else f"{value:.0f}"
+        self.setToolTip("Escaneado — risco 0" if self._value <= 0
+                        else f"Escaneado — risco {self._value:.0f} de 100")
         self.update()
 
     def paintEvent(self, event):
@@ -33,26 +73,42 @@ class DonutRing(QWidget):
         margin = self._thickness / 2 + 2
         rect = QRectF(margin, margin, side - 2 * margin, side - 2 * margin)
 
-        # trilho de fundo
+        if not self._covered:
+            # ── Estado 1: sem cobertura ──────────────────────────────────
+            pen = QPen(QColor(theme.BORDER_STRONG))
+            pen.setWidthF(self._thickness * 0.5)
+            pen.setStyle(Qt.PenStyle.DotLine)
+            p.setPen(pen)
+            p.drawArc(rect, 0, 360 * 16)
+
+            p.setPen(QColor(theme.TEXT_MUTED))
+            p.setFont(QFont("Monospace", 13, QFont.Weight.Bold))
+            p.drawText(self.rect(), Qt.AlignmentFlag.AlignCenter, self._display)
+            p.end()
+            return
+
+        # trilho de fundo (só nos estados cobertos)
         track_pen = QPen(QColor(theme.BORDER))
         track_pen.setWidthF(self._thickness)
         track_pen.setCapStyle(Qt.PenCapStyle.RoundCap)
         p.setPen(track_pen)
         p.drawArc(rect, 0, 360 * 16)
 
-        # arco de valor
-        if self._value > 0:
-            value_pen = QPen(QColor(self._color))
-            value_pen.setWidthF(self._thickness)
-            value_pen.setCapStyle(Qt.PenCapStyle.RoundCap)
-            p.setPen(value_pen)
+        value_pen = QPen(QColor(self._color))
+        value_pen.setWidthF(self._thickness)
+        value_pen.setCapStyle(Qt.PenCapStyle.RoundCap)
+        p.setPen(value_pen)
+
+        if self._value <= 0:
+            # ── Estado 2: coberto e limpo -> anel completo ───────────────
+            p.drawArc(rect, 0, 360 * 16)
+        else:
+            # ── Estado 3: arco proporcional ao risco ─────────────────────
             span = int(-(self._value / 100.0) * 360 * 16)
             p.drawArc(rect, 90 * 16, span)
 
-        # texto central
         p.setPen(QColor(theme.TEXT_PRIMARY))
-        font = QFont("Monospace", 13, QFont.Weight.Bold)
-        p.setFont(font)
+        p.setFont(QFont("Monospace", 13, QFont.Weight.Bold))
         p.drawText(self.rect(), Qt.AlignmentFlag.AlignCenter, self._display)
         p.end()
 
